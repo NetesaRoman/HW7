@@ -12,13 +12,13 @@ public class Main {
         System.out.println(isPalindrome("abc"));
 
         Scanner scanner = new Scanner(System.in);
-        String result;
+
         String guess;
         String[] words = {"apple", "orange", "lemon", "banana", "apricot", "avocado", "broccoli", "carrot", "cherry",
                 "garlic", "grape", "melon", "leak", "kiwi", "mango", "mushroom", "nut", "olive", "pea", "peanut",
                 "pear", "pepper", "pineapple", "pumpkin", "potato"};
-        char[] resultArray = {'#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#'};
 
+        StringBuilder result = new StringBuilder("###############");
         int targetWordIndex = (int) (Math.random() * words.length);
 
         System.out.println("\n--------------------GAME------------------------------");
@@ -27,21 +27,22 @@ public class Main {
             System.out.println("Guess the word (up to 15 letters)");
             guess = scanner.nextLine();
 
-            int loopLength = Math.min(words[targetWordIndex].length(), guess.length());
+            if (guess != null) {
+                int loopLength = Math.min(words[targetWordIndex].length(), guess.length());
 
-            for (int i = 0; i < loopLength; i++) {
-                if (words[targetWordIndex].charAt(i) == guess.charAt(i) && resultArray[i] == '#') {
-                    resultArray[i] = guess.charAt(i);
+                for (int i = 0; i < loopLength; i++) {
+                    if (words[targetWordIndex].charAt(i) == guess.charAt(i) && result.charAt(i) == '#') {
+                        result.setCharAt(i, guess.charAt(i));
 
+                    }
                 }
             }
 
-            result = new String(resultArray);
 
             if (result.substring(0, words[targetWordIndex].length()).equals(words[targetWordIndex])) {
                 break;
             }
-            System.out.println(resultArray);
+            System.out.println(result);
 
         } while (true);
 
@@ -49,40 +50,38 @@ public class Main {
     }
 
     public static int findSymbolOccurance(String string, char c) {
-        int i;
-        int counter = 0;
+        if (string != null) {
+            int i;
+            int counter = 0;
 
-        for (i = 0; i < string.length(); i++) {
-            if (string.charAt(i) == c) {
-                counter++;
+            for (i = 0; i < string.length(); i++) {
+                if (string.charAt(i) == c) {
+                    counter++;
+                }
             }
-        }
 
-        return counter;
+            return counter;
+        } else {
+            return -1;
+        }
     }
 
     public static int findWordPosition(String target, String word) {
-        return target.indexOf(word, 0);
+        if (target != null && word != null)
+            return target.indexOf(word, 0);
+        return -1;
     }
 
     public static String stringReverse(String string) {
-        return new StringBuilder(string).reverse().toString();
+        if (string != null)
+            return new StringBuilder(string).reverse().toString();
+        return "Error!";
     }
 
     public static boolean isPalindrome(String string) {
-        int start = 0;
-        int end = string.length() - 1;
-        String str = string.toLowerCase();
-
-        while (start < end) {
-            if (str.charAt(start) != str.charAt(end))
-                return false;
-
-            start++;
-            end--;
-
-        }
-        return true;
+        if (string != null)
+            return string.equals(stringReverse(string));
+        return false;
     }
 
 
